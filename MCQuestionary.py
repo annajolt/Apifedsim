@@ -26,15 +26,17 @@ def get_data(stocks, start, end):
   covMatrix = returns.cov()
   return meanReturns, covMatrix
 
-
+# function to run the Monte Carlo Simulationn
 def stock_data():
     
     #Using questionary, give the user a list of cryptos to run the report on.
-    stock = questionary.select("Which Crypto do you want to analyze?", choices=stockList, use_arrow_keys: bool=True).ask()
+    stock = questionary.select("Which Crypto do you want to analyze?",
+                               choices=stockList,
+                               use_arrow_keys: bool=True).ask()
 
         print("Running report ...")
 
-    #stocks in my portfolio
+    #avaiable stocks to work with
     stockList = ['BTC-USD','ETH-USD','LUNA1-USD','BNB-USD','ADA-USD']
     stocks = [stock for stock in stockList]
 
@@ -69,69 +71,19 @@ def stock_data():
 
     initialPortfolio = 10000
 
-"""#Cholesky Decomposition (used to determine Lower Triangular Matrix)
-# Z are the samples from a normal distribution
- for m in range(0, mc_sims):
-  #mc loops
-  Z = np.random.normal(size=(T, len(weights)))
-  L = np.linalg.cholesky(covMatrix)
-  #Assuming daily returns are distributed by a Multivariate Normal Distribution 
-  dailyReturns = meanM + np.inner(L, Z)
-  portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1)*initialPortfolio
+    #Cholesky Decomposition (used to determine Lower Triangular Matrix)
+    # Z are the samples from a normal distribution
+    def cumulative_returns(self):
+         for m in range(0, mc_sims):
+          #mc loops
+            Z = np.random.normal(size=(T, len(weights)))
+            L = np.linalg.cholesky(covMatrix)
+      #Assuming daily returns are distributed by a Multivariate Normal Distribution 
+              dailyReturns = meanM + np.inner(L, Z)
+              portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1)*initialPortfolio
+            
 
-"""
-    def calc_cumulative_return(self):
-        """
-        Calculates the cumulative return of a stock over time using a Monte Carlo simulation (Brownian motion with drift).
-
-        """
-        
-        # Get closing prices of each stock
-        last_prices = self.stockData.xs('close',level=1,axis=1)[-1:].values.tolist()[0]
-        
-        # Calculate the mean and standard deviation of daily returns for each stock
-        daily_returns = self.stockData.xs('daily_return',level=1,axis=1)
-        mean_returns = daily_returns.mean().tolist()
-        std_returns = daily_returns.std().tolist()
-        
-        # Initialize empty Dataframe to hold simulated prices
-        portfolio_cumulative_returns = pd.DataFrame()
-        
-        # Run the simulation of projecting stock prices 'nSim' number of times
-        for n in range(self.nSim):
-        
-            if n % 10 == 0:
-                print(f"Running Monte Carlo simulation number {n}.")
-        
-            # Create a list of lists to contain the simulated values for each stock
-            simvals = [[p] for p in last_prices]
-    
-            # For each stock in our data:
-            for s in range(len(last_prices)):
-
-                # Simulate the returns for each trading day
-                for i in range(self.nTrading):
-        
-                    # Calculate the simulated price using the last price within the list
-                    simvals[s].append(simvals[s][-1] * (1 + np.random.normal(mean_returns[s], std_returns[s])))
-    
-            # Calculate the daily returns of simulated prices
-            sim_df = pd.DataFrame(simvals).T.pct_change()
-    
-            # Use the `dot` function with the weights to multiply weights with each column's simulated daily returns
-            sim_df = sim_df.dot(self.weights)
-    
-            # Calculate the normalized, cumulative return series
-            portfolio_cumulative_returns[n] = (1 + sim_df.fillna(0)).cumprod()
-        
-        # Set attribute to use in plotting
-        self.simulated_return = portfolio_cumulative_returns
-        
-        # Calculate 95% confidence intervals for final cumulative returns
-        self.confidence_interval = portfolio_cumulative_returns.iloc[-1, :].quantile(q=[0.025, 0.975])
-        
-        return portfolio_cumulative_returns
-
+    # plot the simulation (line plot)
     def plot_simulation(self):
         """
         Visualizes the simulated stock trajectories using calc_cumulative_return method.
@@ -145,29 +97,47 @@ def stock_data():
         # Use Pandas plot function to plot the return data
         plot_title = f"{self.nSim} Simulations of Cumulative Portfolio Return Trajectories Over the Next {self.nTrading} Trading Days."
         return self.simulated_return.plot(legend=None,title=plot_title)
+    
+    # plot the simuluation (distribution/bar graph)
+    def plot_distribution(self):
+        """
+        Visualizes the distribution of cumulative returns simulated using calc_cumulative_return method.
 
-""" #MCS graph
+        """
+        
+        # Check to make sure that simulation has run previously. 
+        if not isinstance(self.simulated_return,pd.DataFrame):
+            self.calc_cumulative_return()
+        
+        # Use the `plot` function to create a probability distribution histogram of simulated ending prices
+        # with markings for a 95% confidence interval
+        plot_title = f"Distribution of Final Cumuluative Returns Across All {self.nSim} Simulations"
+        plt = self.simulated_return.iloc[-1, :].plot(kind='hist', bins=10,density=True,title=plot_title)
+        plt.axvline(self.confidence_interval.iloc[0], color='r')
+        plt.axvline(self.confidence_interval.iloc[1], color='r')
+        return plt
+"""#MCS graph
 plt.plot(portfolio_sims)
 plt.ylabel('Portfolio Value ($)')
 plt.xlabel('Days')
 plt.title('Monte Carlo Simulation of Personal Stock Portfolio')
 plt.show()
-
-  # An empty dictionary that will hold the daily pct change for each stock from the sector.
-    symbol_pct_changes = {}
+"""
+  # An empty dictionary that will hold the daily pct change for each stock.
+    stock_pct_changes = {}
 
     # Calculate the daily percent change for each symbol in the sector.
     # Create a loop that selects each symbol in the symbols list.
     # Using the `sector_prices_df` DataFrame returned from the Alpaca API call,
     # call the `pct_change` function on the DataFrame's "close" column.
-    for symbol in symbols:
-        symbol_pct_changes[symbol] = stock_data['close'].pct_change()
+    for stock in stocks:
+        stock_pct_changes[stock] = stockData['Close'].pct_change()
 
     # Create a dataframe from the dictionary of daily pct changes.
-    sector_pct_changes = pd.DataFrame.from_dict(symbol_pct_changes)
+    stock_pct_changes = pd.DataFrame.from_dict(stock_pct_changes)
 
     # Calculate the average daily pct change for each day of the five stocks.
-    sector_pct_changes['sector_pct_change'] = sector_pct_changes.mean(axis=1)
+    stock_pct_changes['sector_pct_change'] = sector_pct_changes.mean(axis=1)
 
     # Sum the daily percent changes for the sector over the past year to find the sector yearly return.
     sector_yearly_rtn = sector_pct_changes['sector_pct_change'].sum()
