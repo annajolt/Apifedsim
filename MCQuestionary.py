@@ -26,14 +26,15 @@ def get_data(stocks, start, end):
   covMatrix = returns.cov()
   return meanReturns, covMatrix
 
+
+
 # function to run the Monte Carlo Simulationn
 def stock_data():
     
     #Using questionary, give the user a list of cryptos to run the report on.
     stock = questionary.select("Which Crypto do you want to analyze?",
                                choices=stockList).ask()
-
-        print("Running report ...")
+        #print("Running report ...")
 
     #avaiable stocks to work with
     stockList = ['BTC-USD','ETH-USD','LUNA1-USD','BNB-USD','ADA-USD']
@@ -47,12 +48,12 @@ def stock_data():
 
     # Set weights if empty, otherwise make sure sum of weights equals one.
     if weights == "":
-    questionary.text("What is the weight of the stock?").ask()
-    num_stocks = len(stockData.columns.get_level_values(0).unique())
-    weights = [1.0/num_stocks for s in range(0,num_stocks)]
+        weight = questionary.text("What is the weight of the stock?").ask()
+        num_stocks = len(stockData.columns.get_level_values(0).unique())
+        weights = [1.0/num_stocks for s in range(0,num_stocks)]
     else:
-    if round(sum(weights),2) < .99:
-        raise AttributeError("Sum of portfolio weights must equal one.")
+        if round(sum(weights),2) < .99:
+            raise AttributeError("Sum of portfolio weights must equal one.")
 
 
     #Monte Carlo Method
@@ -72,22 +73,21 @@ def stock_data():
 
     #Cholesky Decomposition (used to determine Lower Triangular Matrix)
     # Z are the samples from a normal distribution
-         for m in range(0, mc_sims):
-          #mc loops
-            Z = np.random.normal(size=(T, len(weights)))
-            L = np.linalg.cholesky(covMatrix)
-      #Assuming daily returns are distributed by a Multivariate Normal Distribution 
-              dailyReturns = meanM + np.inner(L, Z)
-              portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1)*initialPortfolio
+    for m in range(0, mc_sims):
+        #mc loops
+        Z = np.random.normal(size=(T, len(weights)))
+        L = np.linalg.cholesky(covMatrix)
+        #Assuming daily returns are distributed by a Multivariate Normal Distribution 
+        dailyReturns = meanM + np.inner(L, Z)
+        portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1)*initialPortfolio
    
 """
 
     # plot the simulation (line plot)
     def plot_simulation(self):
-        """
-        Visualizes the simulated stock trajectories using calc_cumulative_return method.
-
-        """ 
+    
+        # Visualizes the simulated stock trajectories using calc_cumulative_return method.
+ 
         
         # Check to make sure that simulation has run previously. 
         if not isinstance(self.simulated_return,pd.DataFrame):
@@ -99,10 +99,10 @@ def stock_data():
     
     # plot the simuluation (distribution/bar graph)
     def plot_distribution(self):
-        """
-        Visualizes the distribution of cumulative returns simulated using calc_cumulative_return method.
+    
+       # Visualizes the distribution of cumulative returns simulated using calc_cumulative_return method.
 
-        """
+    
         
         # Check to make sure that simulation has run previously. 
         if not isinstance(self.simulated_return,pd.DataFrame):
@@ -123,15 +123,16 @@ plt.xlabel('Days')
 plt.title('Monte Carlo Simulation of Personal Stock Portfolio')
 plt.show()
 
-  # An empty dictionary that will hold the daily pct change for each stock.
-    stock_pct_changes = {}
+
+# An empty dictionary that will hold the daily pct change for each stock.
+stock_pct_changes = {}
 
     # Calculate the daily percent change for each symbol in the sector.
     # Create a loop that selects each symbol in the symbols list.
     # Using the `sector_prices_df` DataFrame returned from the Alpaca API call,
     # call the `pct_change` function on the DataFrame's "close" column.
-    for stock in stocks:
-        stock_pct_changes[stock] = stockData['Close'].pct_change()
+for stock in stocks:
+    stock_pct_changes[stock] = stockData['Close'].pct_change()
 
     # Create a dataframe from the dictionary of daily pct changes.
     stock_pct_changes = pd.DataFrame.from_dict(stock_pct_changes)
@@ -151,17 +152,17 @@ plt.show()
     continue_running = questionary.select(results, choices=['y', 'n']).ask()
 
     # Return the `continue_running` variable from the `sector_report` function
-    return continue_running
-"""
+    # return continue_running
 
 
 
-# The `__main__` loop of the application.
+
+    # The `__main__` loop of the application.
 # It is the entry point for the program.
 if __name__ == "__main__":
 
-    # Database connection string to the clean NYSE database
-    database_connection_string = 'sqlite:///../Resources/nyse.db'
+    # connection to the clean data
+    
 
     # Create an engine to interact with the database
     engine = sql.create_engine(database_connection_string)
