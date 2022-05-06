@@ -31,8 +31,7 @@ def stock_data():
     
     #Using questionary, give the user a list of cryptos to run the report on.
     stock = questionary.select("Which Crypto do you want to analyze?",
-                               choices=stockList,
-                               use_arrow_keys: bool=True).ask()
+                               choices=stockList).ask()
 
         print("Running report ...")
 
@@ -73,7 +72,6 @@ def stock_data():
 
     #Cholesky Decomposition (used to determine Lower Triangular Matrix)
     # Z are the samples from a normal distribution
-    def cumulative_returns(self):
          for m in range(0, mc_sims):
           #mc loops
             Z = np.random.normal(size=(T, len(weights)))
@@ -81,7 +79,8 @@ def stock_data():
       #Assuming daily returns are distributed by a Multivariate Normal Distribution 
               dailyReturns = meanM + np.inner(L, Z)
               portfolio_sims[:,m] = np.cumprod(np.inner(weights, dailyReturns.T)+1)*initialPortfolio
-            
+   
+"""
 
     # plot the simulation (line plot)
     def plot_simulation(self):
@@ -115,14 +114,15 @@ def stock_data():
         plt = self.simulated_return.iloc[-1, :].plot(kind='hist', bins=10,density=True,title=plot_title)
         plt.axvline(self.confidence_interval.iloc[0], color='r')
         plt.axvline(self.confidence_interval.iloc[1], color='r')
-        return plt
-"""#MCS graph
+        return plt 
+        """
+#MCS graph
 plt.plot(portfolio_sims)
 plt.ylabel('Portfolio Value ($)')
 plt.xlabel('Days')
 plt.title('Monte Carlo Simulation of Personal Stock Portfolio')
 plt.show()
-"""
+
   # An empty dictionary that will hold the daily pct change for each stock.
     stock_pct_changes = {}
 
