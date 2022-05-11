@@ -117,6 +117,24 @@ sim_answer = prompt(sim_response)
 sim_float = int(sim_answer['amount'])
 
 print(sim_answer)
+
+portfolio_response = [
+    {
+        'type': 'text',
+        'name': 'amount',
+        'message': 'How much would you like to deposit to your portfolio?',
+    },
+    {
+        'type': 'confirm',
+        'message': 'Do you want to continue?',
+        'name': 'continue',
+        'default': True,
+    }
+]
+
+portfolio_answer = prompt(portfolio_response)
+
+portfolio_float = int(portfolio_answer['amount'])
 #Monte Carlo Method
 
 #number of simulations
