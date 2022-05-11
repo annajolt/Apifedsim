@@ -124,7 +124,7 @@ metrics['25%'] = np.quantile(portfolio_sims, .25)
 metrics['50%'] = np.quantile(portfolio_sims, .50)
 metrics['75%'] = np.quantile(portfolio_sims, .75)
 metrics['95% CI Lower'] = np.quantile(portfolio_sims, .025)
-metrics['95% CI Upper'] = np.quantile(portfolio_sims, .0975)
+metrics['95% CI Upper'] = np.quantile(portfolio_sims, .975)
 # ci_series.index = ["95% CI Lower","95% CI Upper"]
 # metrics.append(ci_series)
 
