@@ -1,5 +1,6 @@
-# *Crypto Query Lite -Crypto Analysis Tool* 
-[picture](/fintech_bootcamp/Apifedsim/Screenshot_194045.png)
+# *Crypto Query Lite - Crypto Analysis Tool* 
+![cryptos](images/icons-390.jpg)
+
 ---
 ### *Necessary Library imports*
 - import pandas as pd
