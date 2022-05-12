@@ -16,20 +16,26 @@
 
 ### *User Story*
 
-As a crypto trader you need a visualization of volatility of a cryptocurrency based on your initial investment to determine the best & worse possible returns of the cryptocurrency you select.
+As a crypto trader you need a visualization of volatility of a cryptocurrency based on your initial investment to determine the best and worse possible returns of the cryptocurrency you select.
 
 ### *Our Solution - Crypto Query Lite*
 
+Our team created a cryptocurrency analyzing tool, *Crypto Query Lite*, which will allow the user to view the possible outcomes in regards to the cryptocurrency they invest in and the amount of the initial investment.
+
+The user will be prompted to select the cryptocurrency they wish to analyze and view stats for. After the selection, they will continue on to the amount of simulations they want to produce, how far ahead they want the simulation to run and the initial amount they wish to invest in the selected cryptocurrency. *Crypto Query Lite* uses a Monte Carlo Simulation to produce the analysis of the crypto.
+
+The user will be able to view the cryptocurrencies: 
+- Minimum
+- Maximum
+- STD (Standard Deviation)
+- Mean
+- 25% Quantile
+- 50% Quantile
+- 75% Quantile
+- 95% CI Lower
+- 95% CI Upper
+
+As well as a graph of the simulation, as sampled by the picture below:
+<p align='center'> <img src='images/MC_simulation_graph.png'></p>
 
 
-Steps: 
-1. I will need an option to choose cryptocurrencies (established by using questionary through .ask() function; 
-2. After cryptocurrency is chosen will need the app to know how far back we are reviewing the cryptocurrency (1 yr, 2 yr, 5 yr?); 
-3. Singular tokens or multiple tokens at a time can be chosen
-4. This data for the cryptocurrency will be retrieved by/from Yfinance; 
-5. Might need an initial investment amount that is planned to be invested;
-6. Run the data through the Monte Carlo simulation;
-a. for the simulation will need to establish how far ahead we will be looking -, 1 yr, 5 yr.
-7. Retrieve the mean, median, min & max returns from the monte carlo simulations;
-8. Plot the returned data;
-9. Print the 95% CI lower & 95% CI higher (the least & most that can be earned);
