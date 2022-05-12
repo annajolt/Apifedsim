@@ -16,11 +16,11 @@
 
 ### *User Story*
 
-As a crypto trader I need a visualization of volatility of a cryptocurrency based on my initial investment to determine the best & worse possible returns of the cryptocurrency I select.
+As a crypto trader you need a visualization of volatility of a cryptocurrency based on your initial investment to determine the best & worse possible returns of the cryptocurrency you select.
 
-Acceptance Criteria:  Given that I need to know the volatility when choosing a cryptocurrency to determine best & worse possible returns then I need to have a simulation that will produce the results for the selected cryptocurrency.
+### *Our Solution - Crypto Query Lite*
 
-### *
+
 
 Steps: 
 1. I will need an option to choose cryptocurrencies (established by using questionary through .ask() function; 
