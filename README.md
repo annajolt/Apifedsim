@@ -1,5 +1,5 @@
 # *Crypto Query Lite - Crypto Analysis Tool* 
-![cryptos](images/icons-390.jpg)
+<img src='images/icons-390.jpg' alt="banner"></img>
 
 ---
 ### *Necessary Library imports*
