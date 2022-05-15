@@ -16,15 +16,23 @@
 
 ### *User Story*
 
-As a crypto trader you need a visualization of volatility of a cryptocurrency based on your initial investment to determine the best and worse possible returns of the cryptocurrency you select.
+A crypto trader needs an analysis of potential returns on investment based on the historical performance of a coin. This analysis helps the trader determine what is the optimal investment portfolio.
 
 ### *Our Solution - Crypto Query Lite*
 
-Our team created a cryptocurrency analyzing tool, *Crypto Query Lite*, which will allow the user to view the possible outcomes in regards to the cryptocurrency they invest in and the amount of the initial investment.
+Our team created a coin analysis tool, *Crypto Query Lite*, which allows the user to view the possible outcomes in regards to their initial investment.
 
-The user will be prompted to select the cryptocurrency they wish to analyze and view stats for. After the selection, they will continue on to the amount of simulations they want to produce, how far ahead they want the simulation to run and the initial amount they wish to invest in the selected cryptocurrency. *Crypto Query Lite* uses a Monte Carlo Simulation to produce the analysis of the crypto.
+*Crypto Query Lite* uses a Monte Carlo Simulation to forecast future performance of a coin, the projection is based on the most recent year of daily prices as downloaded from Yahoo Finance via API.
 
-The user will be able to view the cryptocurrencies: 
+The user can select:
+
+- One coin: Bitcoin, Ethereum, Terra, Binance, Cardano.
+- Initial investment amount
+- Number of simulations (max 500)
+- Number of days in the future (max 1000)
+
+The code produces the following results: 
+- Monte Carlo simulation graph
 - Minimum
 - Maximum
 - STD (Standard Deviation)
@@ -35,5 +43,5 @@ The user will be able to view the cryptocurrencies:
 - 95% CI Lower
 - 95% CI Upper
 
-As well as a graph of the simulation, as sampled by the picture below:
+Monte Carlo simulation graph example:
 <p align='center'> <img src='images/MC_simulation_graph.png'></p>
