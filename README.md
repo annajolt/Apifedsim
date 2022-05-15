@@ -20,7 +20,7 @@ A crypto trader needs an analysis of potential returns on investment based on th
 
 ### *Our Solution - Crypto Query Lite*
 
-Our team created a coin analysis tool, *Crypto Query Lite*, which allows the user to view the possible outcomes in regards to their initial investment.
+Our team created an analysis tool, *Crypto Query Lite*, that allows the user to view the possible outcomes in regards to their initial investment.
 
 *Crypto Query Lite* uses a Monte Carlo Simulation to forecast future performance of a coin, the projection is based on the most recent year of daily prices as downloaded from Yahoo Finance via API.
 
